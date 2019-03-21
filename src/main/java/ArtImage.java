@@ -17,12 +17,12 @@ public class ArtImage {
     bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
   }
 
-  public void doArtThings() {
+  public void generateInitialImage() {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        int r = 255;
-        int g = 255;
-        int b = 255;
+        int r = 80;
+        int g = 80;
+        int b = 80;
         if (x >= (width / 2)) {
           if (y >= (height / 2)) {
             r = 0;
@@ -39,6 +39,16 @@ public class ArtImage {
         }
         int p = (r << 16) | (g << 8) | b;
         image[x][y] = p;
+      }
+    }
+  }
+
+  public void addNoise() {
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int w = (int) (Math.random() * 50) + 4;
+        int shifter = (w << 16) | (w << 8) | w;
+        image[x][y] = image[x][y] | shifter;
       }
     }
   }
@@ -70,7 +80,7 @@ public class ArtImage {
           int b = (int) (Math.random() * 256) % modB;
           int p = (r << 16) | (g << 8) | b;
           if (p <= 4388608) {
-            //image[x][y] = (image[x][y] | p) % 16777216;
+            // image[x][y] = (image[x][y] | p) % 16777216;
             image[x][y] = p;
           } else {
             image[x][y] = (image[x][y] & p) % 16777216;
@@ -117,8 +127,6 @@ public class ArtImage {
     this.height = height;
   }
 }
-
-
 
 /*modR = ((int) (Math.random() * 255)) + 1;
 modG = ((int) (Math.random() * 255)) + 1;

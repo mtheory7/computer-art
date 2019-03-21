@@ -6,8 +6,10 @@ import java.util.Date;
 
 public class Main {
   public static void main(String[] args) {
-    ArtImage artImage = new ArtImage(2, 2);
-    artImage.doArtThings();
+    //GR: 1.61803398875
+    ArtImage artImage = new ArtImage(1618, 1000);
+    artImage.generateInitialImage();
+    artImage.addNoise();
     //artImage.addBox();
     try {
       String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
