@@ -11,23 +11,36 @@ public class ArtImage {
   private int[][] image;
 
   ArtImage(int width, int height) {
-    modR = ((int) (Math.random() * 255)) + 1;
-    modG = ((int) (Math.random() * 255)) + 1;
-    modB = ((int) (Math.random() * 255)) + 1;
     this.width = width;
     this.height = height;
     image = new int[width][height];
+    bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+  }
 
+  public void doArtThings() {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        int r = (int) (Math.random() * 256) % modR;
-        int g = (int) (Math.random() * 256) % modG;
-        int b = (int) (Math.random() * 256) % modB;
+        int r = 255;
+        int g = 255;
+        int b = 255;
+        if (x >= (width / 2)) {
+          if (y >= (height / 2)) {
+            r = 0;
+            g = 0;
+          } else {
+            g = 0;
+            b = 0;
+          }
+        } else {
+          if (y >= (height / 2)) {
+            b = 0;
+            r = 0;
+          }
+        }
         int p = (r << 16) | (g << 8) | b;
         image[x][y] = p;
       }
     }
-    bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
   }
 
   void addBox() {
@@ -104,3 +117,22 @@ public class ArtImage {
     this.height = height;
   }
 }
+
+
+
+/*modR = ((int) (Math.random() * 255)) + 1;
+modG = ((int) (Math.random() * 255)) + 1;
+modB = ((int) (Math.random() * 255)) + 1;
+this.width = width;
+this.height = height;
+image = new int[width][height];
+
+for (int y = 0; y < height; y++) {
+  for (int x = 0; x < width; x++) {
+    int r = (int) (Math.random() * 256) % modR;
+    int g = (int) (Math.random() * 256) % modG;
+    int b = (int) (Math.random() * 256) % modB;
+    int p = (r << 16) | (g << 8) | b;
+    image[x][y] = p;
+  }
+}*/
