@@ -7,10 +7,10 @@ import java.util.Date;
 public class Main {
   public static void main(String[] args) {
     //GR: 1.61803398875
-    ArtImage artImage = new ArtImage(1618, 1000);
+    ArtImage artImage = new ArtImage(2, 2);
     artImage.generateInitialImage();
-    artImage.addNoise();
-    //artImage.addBox();
+    artImage.setPixelMultiplier(1);
+
     try {
       String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
       ImageIO.write(artImage.getBufferedImage(), "png", new File("images/test" + timeStamp + ".png"));
