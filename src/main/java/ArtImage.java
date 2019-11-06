@@ -18,9 +18,9 @@ public class ArtImage {
   public void generateInitialImage() {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        int r = ((int) (Math.random() * 100));
+        int r = ((int) (Math.random() * 255));
         int g = ((int) (Math.random() * 255));
-        int b = ((int) (Math.random() * 100) + 155);
+        int b = ((int) (Math.random() * 255));
         int p = (r << 16) | (g << 8) | b;
         image[x][y] = p;
       }
@@ -28,10 +28,19 @@ public class ArtImage {
   }
 
   BufferedImage getBufferedImage() {
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        bufferedImage.setRGB(x, y, image[x][y]);
+    int xIndex = 0;
+    int yIndex = 0;
+    for (int y = 0; y < height * pixelMultiplier; y++) {
+      for (int x = 0; x < width * pixelMultiplier; x++) {
+        if (y % pixelMultiplier == 0 && y != 0 && x == 0) {
+          yIndex++;
+        }
+        if (x % pixelMultiplier == 0 && x != 0) {
+          xIndex++;
+        }
+        bufferedImage.setRGB(x, y, image[xIndex][yIndex]);
       }
+      xIndex = 0;
     }
     return bufferedImage;
   }

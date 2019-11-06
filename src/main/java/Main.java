@@ -7,9 +7,9 @@ import java.util.Date;
 public class Main {
   public static void main(String[] args) {
     //GR: 1.61803398875
-    ArtImage artImage = new ArtImage(2, 2);
+    ArtImage artImage = new ArtImage(162, 100);
     artImage.generateInitialImage();
-    artImage.setPixelMultiplier(1);
+    artImage.setPixelMultiplier(16);
 
     try {
       String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
