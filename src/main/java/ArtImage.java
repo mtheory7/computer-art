@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ArtImage {
 
@@ -9,26 +10,31 @@ public class ArtImage {
   private float height;
   private int[][] image;
   private int pixelMultiplier = 1;
-  private Set<Integer> uniqueColors;
+  private List<Integer> uniqueColors;
 
   ArtImage(int width, int height) {
     this.width = width;
     this.height = height;
     image = new int[width][height];
     bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    uniqueColors = new HashSet<Integer>();
+    uniqueColors = new ArrayList<Integer>();
   }
 
-  public void generateInitialImage() {
-    uniqueColors = new HashSet<Integer>();
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int r = ((int) (Math.random() * 255));
-        int g = ((int) (Math.random() * 255));
-        int b = ((int) (Math.random() * 255));
-        int p = (r << 16) | (g << 8) | b;
-        image[x][y] = p;
-        uniqueColors.add(p);
+  public void generateImage() {
+    uniqueColors = new ArrayList<Integer>();
+    for (int r = 0; r < 256; r++) {
+      for (int g = 0; g < 256; g++) {
+        for (int b = 0; b < 256; b++) {
+          int p = (r << 16) | (g << 8) | b;
+          uniqueColors.add(p);
+        }
+      }
+    }
+    Collections.shuffle(uniqueColors);
+    int INDEX = 0;
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        image[x][y] = uniqueColors.get(INDEX++);
       }
     }
   }
@@ -55,10 +61,8 @@ public class ArtImage {
     this.pixelMultiplier = pixelMultiplier;
     bufferedImage =
         new BufferedImage(
-                (int)width * pixelMultiplier, (int)height * pixelMultiplier, BufferedImage.TYPE_INT_RGB);
-  }
-
-  float getUniqueness() {
-    return uniqueColors.size() / (width * height);
+            (int) width * pixelMultiplier,
+            (int) height * pixelMultiplier,
+            BufferedImage.TYPE_INT_RGB);
   }
 }
