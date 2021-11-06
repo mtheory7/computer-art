@@ -5,15 +5,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Main {
-  public static void main(String[] args) {
-    ArtImage artImage = new ArtImage(4096, 4096);
-    artImage.setPixelMultiplier(1);
-    artImage.generateImage();
-    try {
-      String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-      ImageIO.write(artImage.getBufferedImage(), "png", new File("ArtImage_" + timeStamp + ".png"));
-    } catch (IOException e) {
-      System.out.println("Error: " + e);
+  public static void main(String[] args) throws Exception {
+    for (int i = 0; i < 5; i++) {
+      int width = 162;
+      int height = 100;
+      int maxR = (int) (Math.random() * 256);
+      int maxG = (int) (Math.random() * 256);
+      int maxB = (int) (Math.random() * 256);
+      System.out.println("R-" + maxR + " G-" + maxG + " B-" + maxB);
+      System.out.println("required unique colors: " + (width * height));
+      System.out.println("Number of possible colors: " + (maxR * maxG * maxB));
+      if ((width * height) > (maxR * maxG * maxB)) {
+        throw new Exception("Too many required unique colors for RGB values.");
+      }
+      ArtImage artImage = new ArtImage(width, height, maxR, maxG, maxB);
+      artImage.setPixelMultiplier(24);
+      artImage.generateImage();
+      try {
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        ImageIO.write(artImage.getBufferedImage(), "png", new File("ArtImage_" + timeStamp + "___r-" + maxR + "_g-" + maxG + "_b-" + maxB + ".png"));
+      } catch (IOException e) {
+        System.out.println("Error: " + e);
+      }
     }
   }
 }

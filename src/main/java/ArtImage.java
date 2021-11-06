@@ -8,23 +8,32 @@ public class ArtImage {
   private BufferedImage bufferedImage;
   private float width;
   private float height;
+  private int red;
+  private int green;
+  private int blue;
   private int[][] image;
   private int pixelMultiplier = 1;
   private List<Integer> uniqueColors;
+  private List<Integer> usedColors;
 
-  ArtImage(int width, int height) {
+  ArtImage(int width, int height, int red, int green, int blue) {
     this.width = width;
     this.height = height;
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
     image = new int[width][height];
     bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     uniqueColors = new ArrayList<Integer>();
+    usedColors = new ArrayList<Integer>();
   }
 
   public void generateImage() {
+
     uniqueColors = new ArrayList<Integer>();
-    for (int r = 0; r < 256; r++) {
-      for (int g = 0; g < 256; g++) {
-        for (int b = 0; b < 256; b++) {
+    for (int r = 0; r < red; r++) {
+      for (int g = 0; g < green; g++) {
+        for (int b = 0; b < blue; b++) {
           int p = (r << 16) | (g << 8) | b;
           uniqueColors.add(p);
         }
@@ -34,7 +43,14 @@ public class ArtImage {
     int INDEX = 0;
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        image[x][y] = uniqueColors.get(INDEX++);
+        if (usedColors.contains(INDEX)) {
+          System.out.println("Collision! Continuing...");
+          INDEX++;
+          continue;
+        }
+        image[x][y] = uniqueColors.get(INDEX);
+        usedColors.add(INDEX);
+        INDEX++;
       }
     }
   }
