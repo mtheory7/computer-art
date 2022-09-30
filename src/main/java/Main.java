@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class Main {
   public static void main(String[] args) throws Exception {
-    for (int i = 0; i < 5; i++) {
-      int width = 162;
-      int height = 100;
+    for (int i = 0; i < 1; i++) {
+      int width = 10;
+      int height = 10;
       int maxR = (int) (Math.random() * 256);
       int maxG = (int) (Math.random() * 256);
       int maxB = (int) (Math.random() * 256);
@@ -19,11 +19,11 @@ public class Main {
         throw new Exception("Too many required unique colors for RGB values.");
       }
       ArtImage artImage = new ArtImage(width, height, maxR, maxG, maxB);
-      artImage.setPixelMultiplier(24);
+      artImage.setPixelMultiplier(192);
       artImage.generateImage();
       try {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        ImageIO.write(artImage.getBufferedImage(), "png", new File("ArtImage_" + timeStamp + "___r-" + maxR + "_g-" + maxG + "_b-" + maxB + ".png"));
+        ImageIO.write(artImage.getBufferedImage(), "png", new File("artImages/ArtImage_" + timeStamp + "r-" + maxR + "_g-" + maxG + "_b-" + maxB + ".png"));
       } catch (IOException e) {
         System.out.println("Error: " + e);
       }
