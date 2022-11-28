@@ -13,9 +13,9 @@ public class Main {
 
   public static BufferedImage joinBufferedImage(BufferedImage img1,
                                                 BufferedImage img2) {
-    int offset = 20;
+    int offset = 50;
     int width = img1.getWidth() + img2.getWidth() + offset;
-    int height = Math.max(img1.getHeight(), img2.getHeight()) + offset;
+    int height = Math.max(img1.getHeight(), img2.getHeight());
     BufferedImage newImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2 = newImage.createGraphics();
