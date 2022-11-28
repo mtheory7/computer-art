@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +16,10 @@ public class ArtImage {
   private int pixelMultiplier = 1;
   private List<Integer> uniqueColors;
   private List<Integer> usedColors;
+  private List<Integer> knownPrimes;
+  private List<Integer> knownComposites;
 
-  ArtImage(int width, int height, int red, int green, int blue) {
+  ArtImage(int width, int height, int red, int green, int blue, List<Integer> knownPrimes, List<Integer> knownComposites) {
     this.width = width;
     this.height = height;
     this.red = red;
@@ -26,6 +29,8 @@ public class ArtImage {
     bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     uniqueColors = new ArrayList<Integer>();
     usedColors = new ArrayList<Integer>();
+    this.knownPrimes = knownPrimes;
+    this.knownComposites = knownComposites;
   }
 
   public void generateImage() {
@@ -40,22 +45,39 @@ public class ArtImage {
       }
     }
     Collections.shuffle(uniqueColors);
-    int INDEX = 0;
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
+    int INDEX = 1;
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
         if (usedColors.contains(INDEX)) {
           System.out.println("Collision! Continuing...");
           INDEX++;
           continue;
         }
-        image[x][y] = uniqueColors.get(INDEX);
-        usedColors.add(INDEX);
+        if (knownPrimes.contains(INDEX)) {
+          image[x][y] = 16777215;
+        } else {
+          if (knownComposites.contains(INDEX)) {
+            image[x][y] = uniqueColors.get(INDEX);
+            usedColors.add(INDEX);
+          } else {
+            AKS prime = new AKS(BigInteger.valueOf(INDEX));
+            boolean isPrime = prime.checkIsPrime(BigInteger.valueOf(INDEX));
+            if (isPrime) {
+              knownPrimes.add(INDEX);
+              image[x][y] = 16777215;
+            } else {
+              knownComposites.add(INDEX);
+              image[x][y] = uniqueColors.get(INDEX);
+              usedColors.add(INDEX);
+            }
+          }
+        }
         INDEX++;
       }
     }
   }
 
-  BufferedImage getBufferedImage() {
+  protected BufferedImage getPixelMultiplied() {
     int xIndex = 0;
     int yIndex = 0;
     for (int y = 0; y < height * pixelMultiplier; y++) {
