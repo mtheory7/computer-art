@@ -45,7 +45,7 @@ public class Main {
                 throw new Exception("Too many required unique colors for RGB values.");
             }
             ArtImage artImage = new ArtImage(w, w * 5, maxR, maxG, maxB, knownPrimes, knownComposites);
-            artImage.setPixelMultiplier(1800 / w);
+            artImage.setPixelMultiplier(3600 / w);
             artImage.generateImage();
             try {
                 String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
