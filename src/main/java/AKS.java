@@ -10,8 +10,8 @@ public class AKS {
     }
 
     public boolean checkIsPrime(BigInteger n) {
-        BigInteger lowR, powOf, x, leftH, rightH, fm, aBigNum;
-        int totR, quot, tm, aCounter, aLimit, divisor;
+        BigInteger lowR, powOf, x, leftH, rightH, aBigNum;
+        int totR, quot, tm, aCounter, aLimit;
         log = (int) logBigNum(n);
         if (findPower(n, log)) {
             return false;
@@ -28,9 +28,9 @@ public class AKS {
             totR = lowR.intValue();
             if (sieveArray[totR]) {
                 quot = largestFactor(totR - 1);
-                divisor = (int) (totR - 1) / quot;
                 tm = (int) (4 * (Math.sqrt(totR)) * log);
-                powOf = mPower(n, new BigInteger("" + divisor), lowR);
+                powOf = mPower(n, new BigInteger(
+                        "" + (totR - 1) / quot), lowR);
                 if (quot >= tm && (powOf.compareTo(BigInteger.ONE)) != 0) {
                     break;
                 }
@@ -47,22 +47,15 @@ public class AKS {
     }
 
     public double logBigNum(BigInteger bNum) {
-        String str;
-        int len;
-        double num1, num2;
-        str = "." + bNum.toString();
-        len = str.length() - 1;
-        num1 = Double.parseDouble(str);
-        num2 = Math.log10(num1) + len;
-        return num2;
+        String str = "." + bNum.toString();
+        return Math.log10(Double.parseDouble(str)) + (str.length() - 1);
     }
 
     public int largestFactor(int num) {
-        int i;
-        i = num;
+        int i = num;
         if (i == 1) return i;
         while (i > 1) {
-            while (sieveArray[i] == true) {
+            while (sieveArray[i]) {
                 i--;
             }
             if (num % i == 0) {
