@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class PrimeArtImage {
-    public static final int WHITE_RGB = 16777215;
     private BufferedImage bufferedImage;
     private float width, height;
     private int red, green, blue, pixelMultiplier;
@@ -47,7 +46,7 @@ public class PrimeArtImage {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (knownPrimes.contains(INDEX)) {
-                    image[x][y] = WHITE_RGB;
+                    image[x][y] = Main.WHITE_RGB;
                 } else {
                     if (knownComposites.contains(INDEX)) {
                         image[x][y] = uniqueColors.get(INDEX);
@@ -55,7 +54,7 @@ public class PrimeArtImage {
                     } else {
                         if (prime.checkIsPrime(BigInteger.valueOf(INDEX))) {
                             knownPrimes.add(INDEX);
-                            image[x][y] = WHITE_RGB;
+                            image[x][y] = Main.WHITE_RGB;
                         } else {
                             knownComposites.add(INDEX);
                             image[x][y] = uniqueColors.get(INDEX);
